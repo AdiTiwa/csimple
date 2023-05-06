@@ -5,7 +5,7 @@ class token:
         self.value = value
 
     def __repr__(self):
-        return self
+        return str(self.value)
     
     def get(self):
         return self.value
@@ -22,37 +22,49 @@ class keyword(token):
     def __init__(self, value):
         super().__init__(value)
 
+class symbol(token):
+    pass
+
 letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
 numbers = "1234567890"
 
 def lexer(code):
 
-    global idx, ast, l
+    global idx, ast, l, ncode, line
     idx = 0
+    line = 0
     ast = []
-    l = code[idx]
+    ncode = code.split("\n")
+    l = ncode[line][idx]
+
+    print(ncode)
+
     def advanceToken():
-        global idx, ast, l
+        global idx, ast, l, ncode, line
 
         idx += 1
-        if idx >= len(code):
-            return ast
-        l = code[idx]
+        if idx > len(ncode[line]) - 1:
+            line += 1
+            idx = 0
+            if line == len(ncode):
+                return True
+        l = ncode[line][idx]
+        print(l)
 
     def buildString(currentToken):
-        advanceToken()
+        if advanceToken(): return currentToken
         if not l == '"':
             return buildString(string(currentToken.get() + l))
         return currentToken
     
     def buildKeyword(currentToken):
-        advanceToken()
+        if advanceToken(): return currentToken
         if not l == " ":
             return buildKeyword(keyword(currentToken.get() + l))
         return currentToken
 
     def buildNumber(currentToken):
-        advanceToken()
+        if advanceToken(): return currentToken
         if not l == " ":
             return buildNumber(numeral(int(str(currentToken.get()) + l)))
         return currentToken
@@ -60,13 +72,21 @@ def lexer(code):
     while (idx < len(code)):
         if (l == '"'):
             ast.append(buildString(string("")))
-        elif (re.search(l, letters)):
+        elif (re.search(letters, l)):
             ast.append(buildKeyword(keyword(l)))
-        elif (re.search(l, numbers)):
+        elif (re.search(numbers, l)):
             ast.append(buildNumber(numeral(int(l))))
 
-        advanceToken()
+        print(ast)
+        if advanceToken(): 
+            return ast
 
-    return ast
+if __name__ == "__main__":
+    cd = """print "hello world"
+    x: int = 1 
+    y: int = 2 
+    z: int = x + y 
+    print z 
+    """
 
-print(lexer('12345 add "hello world"'))
+    print(lexer(cd))
