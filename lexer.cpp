@@ -179,6 +179,52 @@ void Lexer::other_token() {
             break;
         case '=':
             tokens.push_back(Token(Token::Type::equal));
+            break;
+        case '!=':
+            tokens.push_back(Token(Token::Type::not_equal));
+            break;
+        case '<':
+            tokens.push_back(Token(Token::Type::less_than));
+            break;
+        case '<=':
+            tokens.push_back(Token(Token::Type::less_equal));
+            break;
+        case '>':
+            tokens.push_back(Token(Token::Type::greater_than));
+            break;
+        case '>=':
+            tokens.push_back(Token(Token::Type::greater_equal));
+            break;
+        case '#':
+            tokens.push_back(Token(Token::Type::hashtag));
+            break;
+        case '%':
+            tokens.push_back(Token(Token::Type::percent));
+            break;
+        case '^':
+            tokens.push_back(Token(Token::Type::caret));
+            break;
+        case '_':
+            tokens.push_back(Token(Token::Type::underscore));
+            break;
+        case '{':
+            tokens.push_back(Token(Token::Type::curly_left_bracket));
+            break;
+        case '}':
+            tokens.push_back(Token(Token::Type::curly_right_bracket));
+            break;
+        case '.':
+            tokens.push_back(Token(Token::Type::period));
+            break;
+        case '~':
+            tokens.push_back(Token(Token::Type::tilda));
+            break;
+        case '?':
+            tokens.push_back(Token(Token::Type::question_mark));
+            break;
+        case '|':
+            tokens.push_back(Token(Token::Type::pipe));
+            break;
     }
 }
 
@@ -217,19 +263,3 @@ std::string Token::repr() {
             return std::to_string(this->type);
     }
 }
-
-/*
-
-
-define print: func (todisplay: str):
-    print todiplay
-
-define nor: op (a, b):
-    a or b = c
-    not c
-
-define g: f(x, y): x^2 + 4x + y^2 + 6y + 13
-
-d/dx (g)
-
-*/
