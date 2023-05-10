@@ -58,7 +58,7 @@ public:
     Token buildString(Token currentToken);
     Token buildKeyword(Token currentToken);
 
-    void Lexer::other_token();
+    void other_token();
 
     inline std::vector<Token> getTokens() {return tokens;};
 private:

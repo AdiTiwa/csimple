@@ -180,20 +180,14 @@ void Lexer::other_token() {
         case '=':
             tokens.push_back(Token(Token::Type::equal));
             break;
-        case '!=':
+        case '!':
             tokens.push_back(Token(Token::Type::not_equal));
             break;
         case '<':
             tokens.push_back(Token(Token::Type::less_than));
             break;
-        case '<=':
-            tokens.push_back(Token(Token::Type::less_equal));
-            break;
         case '>':
             tokens.push_back(Token(Token::Type::greater_than));
-            break;
-        case '>=':
-            tokens.push_back(Token(Token::Type::greater_equal));
             break;
         case '#':
             tokens.push_back(Token(Token::Type::hashtag));
