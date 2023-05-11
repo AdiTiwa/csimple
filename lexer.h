@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <map>
 
 class Token {
 public:
@@ -20,22 +21,21 @@ public:
         multiply,
         divide,
         equal,
-        not_equal,
         less_than,
-        less_equal,
         greater_than,
-        greater_equal,
         hashtag,
         percent,
         caret,
         underscore,
-        curly_left_bracket,
-        curly_right_bracket,
+        left_brace,
+        right_brace,
         period,
         tilda,
         question_mark,
         pipe,
+        carriage_return,
     };
+
     Token(Type type) : type(type) {}
     Token(Type type, const std::string str) : type(type), s_value(str) {}
     Token(Type type, int v) : type(type), i_value(v) {}

@@ -4,123 +4,184 @@
 #include <vector>
 #include <cmath>
 #include <string>
-#include <hashtable.h>
+#include <algorithm>
+
+std::map<char, Token::Type> TokenMap = {
+    {'\n', Token::Type::newline},
+    {'[', Token::Type::left_square_bracket},
+    {']', Token::Type::right_square_bracket},
+    {',', Token::Type::comma},
+    {':', Token::Type::colon},
+    {'+', Token::Type::plus},
+    {'-', Token::Type::minus},
+    {'*', Token::Type::multiply},
+    {'/', Token::Type::divide},
+    {'=', Token::Type::equal},
+    {'<', Token::Type::less_than},
+    {'>', Token::Type::greater_than},
+    {'#', Token::Type::hashtag},
+    {'%', Token::Type::percent},
+    {'^', Token::Type::caret},
+    {'_', Token::Type::underscore},
+    {'(', Token::Type::left_brace},
+    {')', Token::Type::right_brace},
+    {'.', Token::Type::comma},
+    {'~', Token::Type::tilda},
+    {'?', Token::Type::question_mark},
+    {'|', Token::Type::pipe},
+    {'\t', Token::Type::tab},
+    {'\n', Token::Type::carriage_return},
+};
+
+std::map<Token::Type, char> TokenRepr = {
+    {Token::Type::newline, '\n'},
+    {Token::Type::left_square_bracket, '['},
+    {Token::Type::right_square_bracket, ']'},
+    {Token::Type::comma, ','},
+    {Token::Type::colon, ':'},
+    {Token::Type::plus, '+'},
+    {Token::Type::minus, '-'},
+    {Token::Type::multiply, '*'},
+    {Token::Type::divide, '/'},
+    {Token::Type::equal, '='},
+    {Token::Type::less_than, '<'},
+    {Token::Type::greater_than, '>'},
+    {Token::Type::hashtag, '#'},
+    {Token::Type::percent, '%'},
+    {Token::Type::caret, '^'},
+    {Token::Type::underscore, '_'},
+    {Token::Type::left_brace, '('},
+    {Token::Type::right_brace, ')'},
+    {Token::Type::comma, '.'},
+    {Token::Type::tilda, '~'},
+    {Token::Type::question_mark, '?'},
+    {Token::Type::pipe, '|'},
+    {Token::Type::tab , '\t'},
+    {Token::Type::carriage_return, '\n'},
+};
 
 bool isspace(char c) {
-    switch (c) {
-        case ' ':
-        case '\t':
-        case '\r':
-        case '\n':
-            return true;
-        default:
-            return false;
-    }
+    switch (c)
+    {
+    case ' ':
+    case '\t':
+    case '\r':
+    case '\n':
+        return true;
+    default:
+        return false;
+    };
 }
 
 bool isidentifier(char c) {
-    switch (c) {
-        case 'a':
-        case 'b':
-        case 'c':
-        case 'd':
-        case 'e':
-        case 'f':
-        case 'g':
-        case 'h':
-        case 'i':
-        case 'j':
-        case 'k':
-        case 'l':
-        case 'm':
-        case 'n':
-        case 'o':
-        case 'p':
-        case 'q':
-        case 'r':
-        case 's':
-        case 't':
-        case 'u':
-        case 'v':
-        case 'w':
-        case 'x':
-        case 'y':
-        case 'z':
-        case 'A':
-        case 'B':
-        case 'C':
-        case 'D':
-        case 'E':
-        case 'F':
-        case 'G':
-        case 'H':
-        case 'I':
-        case 'J':
-        case 'K':
-        case 'L':
-        case 'M':
-        case 'N':
-        case 'O':
-        case 'P':
-        case 'Q':
-        case 'R':
-        case 'S':
-        case 'T':
-        case 'U':
-        case 'V':
-        case 'W':
-        case 'X':
-        case 'Y':
-        case 'Z':
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-        case '_':
-            return true;
-        default:
-            return false;
-    }
+    switch (c)
+    {
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+    case 'E':
+    case 'F':
+    case 'G':
+    case 'H':
+    case 'I':
+    case 'J':
+    case 'K':
+    case 'L':
+    case 'M':
+    case 'N':
+    case 'O':
+    case 'P':
+    case 'Q':
+    case 'R':
+    case 'S':
+    case 'T':
+    case 'U':
+    case 'V':
+    case 'W':
+    case 'X':
+    case 'Y':
+    case 'Z':
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '_':
+        return true;
+    default:
+        return false;
+    };
 }
 
 bool isnumeric(char c) {
-    switch (c) {
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            return true;
-        default:
-            return false;
-    }
+    switch (c)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+        return true;
+    default:
+        return false;
+    };
 }
 
-Token Lexer::buildNumeral(Token currentToken) {
+Token Lexer::buildNumeral(Token currentToken)
+{
     idx++;
-    if (idx >= code.length()) {
+    if (idx >= code.length())
+    {
         return currentToken;
     }
     l = code[idx];
 
-    if (isnumeric(l)) {
+    if (isnumeric(l))
+    {
         return buildNumeral(Token(currentToken.get_type(), std::stoi(std::to_string(currentToken.i_value) + l)));
     }
     return currentToken;
 }
 
-Token Lexer::buildKeyword(Token currentToken) {
+Token Lexer::buildKeyword(Token currentToken)
+{
     idx++;
     if (idx >= code.length())
     {
@@ -128,103 +189,34 @@ Token Lexer::buildKeyword(Token currentToken) {
     }
     l = code[idx];
 
-    if (isidentifier(l)) {
+    if (isidentifier(l))
+    {
         return buildKeyword(Token(currentToken.get_type(), currentToken.s_value + l));
     }
     return currentToken;
 }
 
-Token Lexer::buildString(Token currentToken) {
+Token Lexer::buildString(Token currentToken)
+{
     idx++;
     if (idx >= code.length())
     {
         return currentToken;
-    } 
+    }
     l = code[idx];
 
-    if (l != '"') {
+    if (l != '"')
+    {
         return buildString(Token(currentToken.get_type(), currentToken.s_value + l));
     }
     return currentToken;
 }
 
-void Lexer::other_token() {
-    switch (l) {
-        case '\n':
-            tokens.push_back(Token(Token::Type::newline));
-            break;
-        case '[':
-            tokens.push_back(Token(Token::Type::left_square_bracket));
-            break;
-        case ']':
-            tokens.push_back(Token(Token::Type::right_square_bracket));
-            break;
-        case ',':
-            tokens.push_back(Token(Token::Type::comma));
-            break;
-        case ':':
-            tokens.push_back(Token(Token::Type::colon));
-            break;
-        case '+':
-            tokens.push_back(Token(Token::Type::plus));
-            break;
-        case '-':
-            tokens.push_back(Token(Token::Type::minus));
-            break;
-        case '*':
-            tokens.push_back(Token(Token::Type::multiply));
-            break;
-        case '/':
-            tokens.push_back(Token(Token::Type::divide));
-            break;
-        case '=':
-            tokens.push_back(Token(Token::Type::equal));
-            break;
-        case '!=':
-            tokens.push_back(Token(Token::Type::not_equal));
-            break;
-        case '<':
-            tokens.push_back(Token(Token::Type::less_than));
-            break;
-        case '<=':
-            tokens.push_back(Token(Token::Type::less_equal));
-            break;
-        case '>':
-            tokens.push_back(Token(Token::Type::greater_than));
-            break;
-        case '>=':
-            tokens.push_back(Token(Token::Type::greater_equal));
-            break;
-        case '#':
-            tokens.push_back(Token(Token::Type::hashtag));
-            break;
-        case '%':
-            tokens.push_back(Token(Token::Type::percent));
-            break;
-        case '^':
-            tokens.push_back(Token(Token::Type::caret));
-            break;
-        case '_':
-            tokens.push_back(Token(Token::Type::underscore));
-            break;
-        case '{':
-            tokens.push_back(Token(Token::Type::curly_left_bracket));
-            break;
-        case '}':
-            tokens.push_back(Token(Token::Type::curly_right_bracket));
-            break;
-        case '.':
-            tokens.push_back(Token(Token::Type::period));
-            break;
-        case '~':
-            tokens.push_back(Token(Token::Type::tilda));
-            break;
-        case '?':
-            tokens.push_back(Token(Token::Type::question_mark));
-            break;
-        case '|':
-            tokens.push_back(Token(Token::Type::pipe));
-            break;
+void Lexer::other_token()
+{
+    if (TokenMap.find(l) != TokenMap.end())
+    {
+        tokens.push_back(Token(TokenMap[l]));
     }
 }
 
@@ -233,18 +225,25 @@ Lexer::Lexer(const std::string code)
 {
     idx = -1;
 
-    while (true) {
+    while (true)
+    {
         idx++;
-        if (idx >= code.length()) {
+        if (idx >= code.length())
+        {
             break;
         }
         l = code[idx];
 
-        if (isnumeric(l)) {
+        if (isnumeric(l))
+        {
             tokens.push_back(buildNumeral(Token(Token::Type::numeral, l - '0')));
-        } else if (isidentifier(l)) {
+        }
+        else if (isidentifier(l))
+        {
             tokens.push_back(buildKeyword(Token(Token::Type::keyword, std::string(1, l))));
-        } else if (l == '"') {
+        }
+        else if (l == '"')
+        {
             tokens.push_back(buildKeyword(Token(Token::Type::string, std::string(1, l))));
         }
 
@@ -252,14 +251,17 @@ Lexer::Lexer(const std::string code)
     }
 }
 
-std::string Token::repr() {
-    switch (type) {
-        case Token::Type::string:
-        case Token::Type::keyword:
-            return s_value;
-        case Token::Type::numeral:
-            return std::to_string(i_value);
-        default:
-            return std::to_string(this->type);
+std::string Token::repr()
+{
+
+    switch (type)
+    {
+    case Token::Type::string:
+    case Token::Type::keyword:
+        return s_value;
+    case Token::Type::numeral:
+        return std::to_string(i_value);
+    default:
+        return std::string(1, TokenRepr[type]);
     }
 }

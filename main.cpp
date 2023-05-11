@@ -6,7 +6,7 @@
 #include "lexer.h"
 
 int main() {
-    Lexer lexer = Lexer("9:\nhello world");
+    Lexer lexer = Lexer("define add: func (x, y) ->");
 
     for (auto &element : lexer.getTokens())
     {
