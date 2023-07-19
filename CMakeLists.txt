@@ -6,9 +6,11 @@ set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 project(csimple)
 
 set(SOURCE_FILES
-    main.cpp
-    lexer.cpp
+    token.cpp
     error.cpp
+    lexer.cpp
+    parser.cpp
+    main.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

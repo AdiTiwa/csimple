@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "base.h"
 
 struct FPos{
     int line;
@@ -13,11 +13,14 @@ public:
         Warning,
         Breaking,
         Info,
+        Nothing
     };
 
     Error(std::string message, Severity severity) : m(message), s(severity) {};
     Error(std::string message, Severity severity, FPos pos) : m(message), s(severity), p(pos) {};
-
+    Error() : s(Severity::Nothing) {};
+    
+    inline bool is_error() { if (s == Severity::Nothing) { return false; } else { return true; } }
     inline std::string repr() { return m; };
 private:
     std::string m;

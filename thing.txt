@@ -1,0 +1,13 @@
+print("hello world")
+
+define add: func(x y):
+
+
+define add: func(x y) ->
+    return x + y
+
+
+add(1 2)
+
+define dothrice: func(f:func, x:num, y:num)->
+    return f(f(f(x, y), y), y)

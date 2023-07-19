@@ -1,10 +1,5 @@
 #include "lexer.h"
 
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <string>
-#include <algorithm>
 
 std::map<char, Token::Type> TokenMap = {
     {'\n', Token::Type::newline},
@@ -23,9 +18,9 @@ std::map<char, Token::Type> TokenMap = {
     {'%', Token::Type::percent},
     {'^', Token::Type::caret},
     {'_', Token::Type::underscore},
-    {'(', Token::Type::left_brace},
-    {')', Token::Type::right_brace},
-    {'.', Token::Type::comma},
+    {'(', Token::Type::left_parenthesis},
+    {')', Token::Type::right_parenthesis},
+    {'.', Token::Type::period},
     {'~', Token::Type::tilda},
     {'?', Token::Type::question_mark},
     {'|', Token::Type::pipe},
@@ -50,13 +45,13 @@ std::map<Token::Type, char> TokenRepr = {
     {Token::Type::percent, '%'},
     {Token::Type::caret, '^'},
     {Token::Type::underscore, '_'},
-    {Token::Type::left_brace, '('},
-    {Token::Type::right_brace, ')'},
-    {Token::Type::comma, '.'},
+    {Token::Type::left_parenthesis, '('},
+    {Token::Type::right_parenthesis, ')'},
+    {Token::Type::period, '.'},
     {Token::Type::tilda, '~'},
     {Token::Type::question_mark, '?'},
     {Token::Type::pipe, '|'},
-    {Token::Type::tab , '\t'},
+    {Token::Type::tab, '\t'},
     {Token::Type::carriage_return, '\n'},
 };
 
@@ -248,20 +243,5 @@ Lexer::Lexer(const std::string code)
         }
 
         this->other_token();
-    }
-}
-
-std::string Token::repr()
-{
-
-    switch (type)
-    {
-    case Token::Type::string:
-    case Token::Type::keyword:
-        return s_value;
-    case Token::Type::numeral:
-        return std::to_string(i_value);
-    default:
-        return std::string(1, TokenRepr[type]);
     }
 }
